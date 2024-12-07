@@ -6,6 +6,9 @@ def matches_total_recursive(total, agg, numbers):
     if len(numbers) == 0:
         return total == agg
 
+    if agg > total:
+        return False
+
     num = numbers[0]
 
     s = matches_total_recursive(total, agg + num, numbers[1:])
@@ -32,21 +35,12 @@ def matches_total(total, numbers):
     return False
 
 
-def part1():
-    output = 0
-    with open('./inputs/day07.txt') as file:
-        for line in file:
-            total, rest = line.strip().split(': ')
-            total = int(total)
-            numbers = [int(n) for n in rest.split()]
-            if matches_total_recursive(total, 0, numbers):
-                output += total
-    return output
-
-
 def matches_total_with_concat_recursive(total, agg, numbers):
     if len(numbers) == 0:
         return total == agg
+
+    if agg > total:
+        return False
 
     num = numbers[0]
 
@@ -78,17 +72,21 @@ def matches_total_with_concat(total, numbers):
     return False
 
 
-def part2():
-    output = 0
+def run():
+    part1, part2 = 0, 0
     with open('./inputs/day07.txt') as file:
         for line in file:
             total, rest = line.strip().split(': ')
             total = int(total)
             numbers = [int(n) for n in rest.split()]
+            if matches_total_recursive(total, 0, numbers):
+                part1 += total
+                continue
             if matches_total_with_concat_recursive(total, 0, numbers):
-                output += total
-    return output
+                part2 += total
+    return part1, part2
 
 
-print("Part 1: ", part1())
-print("Part 2: ", part2())
+part1, part2 = run()
+print("Part 1: ", part1)
+print("Part 2: ", part2)
