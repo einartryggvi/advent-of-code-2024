@@ -1,3 +1,4 @@
 /target
 inputs/*.txt
 .DS_Store
+__pycache__
