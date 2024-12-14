@@ -57,4 +57,41 @@ def part1():
         return output
 
 
+def part2():
+    with open('./inputs/day14.txt') as file:
+        maxX = 101
+        maxY = 103
+        counts = defaultdict(int)
+        robots = []
+        for line in file:
+            p, v = parse(line.strip())
+            robots.append((p, v))
+
+        for iteration in range(maxX * maxY):
+            counts.clear()
+            for i, (p, v) in enumerate(robots):
+                (x, y) = p
+                (vx, vy) = v
+                nx, ny = x + vx, y + vy
+                if nx < 0:
+                    nx = maxX + nx
+                if ny < 0:
+                    ny = maxY + ny
+                if nx >= maxX:
+                    nx = nx - maxX
+                if ny >= maxY:
+                    ny = ny - maxY
+                counts[nx, ny] += 1
+                robots[i] = ((nx, ny), v)
+            robot_fields = counts.keys()
+            for y in range(maxY):
+                s = ''
+                for x in range(maxX):
+                    s += 'S' if (x, y) in robot_fields else '.'
+                if 'SSSSSSSS' in s:
+                    return iteration + 1
+        return 0
+
+
 print("Part 1: ", part1())
+print("Part 1: ", part2())
