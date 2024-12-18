@@ -1,14 +1,7 @@
 import re
 
 
-def run():
-    file = open('./inputs/day17.txt')
-    a, b, c, _, r = file.read().split('\n')
-    a = int(re.sub(r'([^\-0-9]+)', '', a.strip()))
-    b = int(re.sub(r'([^\-0-9]+)', '', b.strip()))
-    c = int(re.sub(r'([^\-0-9]+)', '', c.strip()))
-    r = [int(rr) for rr in r.split(': ')[1].split(',')]
-
+def run_program(a, b, c, r):
     output = []
     i = 0
     while i < len(r):
@@ -42,7 +35,20 @@ def run():
             c = a // 2**combo_operand
         i += 2
 
-    return ','.join([str(o) for o in output]), 0
+    return output
+
+
+def run():
+    file = open('./inputs/day17.txt')
+    a, b, c, _, r = file.read().split('\n')
+    a = int(re.sub(r'([^\-0-9]+)', '', a.strip()))
+    b = int(re.sub(r'([^\-0-9]+)', '', b.strip()))
+    c = int(re.sub(r'([^\-0-9]+)', '', c.strip()))
+    r = [int(rr) for rr in r.split(': ')[1].split(',')]
+
+    part1 = run_program(a, b, c, r)
+
+    return ','.join([str(o) for o in part1]), a
 
 
 part1, part2 = run()
